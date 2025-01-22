@@ -7,19 +7,18 @@ const registrarUser = async (req, res) => {
 
     //validar
     if (!username || !email || !password) {
-        return res.status(204).send("¡Favor de llenar todos los campos!")
+        return res.status(400).send("¡Favor de llenar todos los campos!")
     }
     try {
         //Encryptar password
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const heshedPassword = await bcrypt.hash(password, 10);
 
         //Crear User
-        const newUser = await userModel({
+        const newUser = await userModel.createUser({
             username, 
             email, 
-            password: hashedPassword
-        })
-        newUser.createUser()
+            password: heshedPassword
+        });
         res.status(201).json(newUser);
     } catch (error) {
         console.log(error);
